@@ -57,7 +57,7 @@ module "internal-lb" {
     backends = [
         {
             description = "Instance group for internal-load-balancer"
-            group       = google_compute_instance_group.kong-dp-group-taiwan.self_link
+            group       = google_compute_instance_group.kong-dp-group.*.self_link
         },
         # {
         #     description = "Instance group for internal-load-balancer"
