@@ -11,7 +11,7 @@ resource "random_string" "vm-name" {
 resource "google_compute_instance" "kong-cp" {
     project      = var.gcp_project
     name         = "${var.kong_cp_name}-${var.region}-${random_string.vm-name.result}"
-    machine_type = var.machine-type
+    machine_type = var.machine_type
     zone         = var.zone
 
     tags = ["kong-cp"]
