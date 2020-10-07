@@ -1,0 +1,48 @@
+{
+    "variables": {
+        "zone": "asia-east1-a",
+        "gcp_account_file": "account.json",
+        "project_id": "sa101-286802",
+        "conf_out_dir": "/usr/conf/kong"
+    },
+    "builders": [
+        {
+            "type": "googlecompute",
+            "image_name": "kong-dp-{{user `region`}}-{{timestamp}}",
+            "project_id": "{{user `project_id`}}",
+            "machine_type": "f1-micro",
+            "source_image": "debian-9-stretch-v20200805",
+            "source_image_family": "kong-hybrid",
+            "account_file": "{{user `gcp_account_file`}}",
+            "ssh_username": "packer",
+            "disk_size": 10,
+            "ssh_password": "packer",
+            "zone": "{{user `zone`}}"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "sudo /usr/bin/apt-get update",
+                "sudo /usr/bin/apt-get -y install ansible"
+            ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo mkdir -p {{user `conf_out_dir`}}",
+                "sudo chown -R packer:packer {{user `conf_out_dir`}}"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "{{user `conf_dir`}}/",
+            "destination": "{{user `conf_out_dir`}}"
+        },
+        {
+            "type": "ansible-local",
+            "playbook_file": "{{user `playbook`}}"
+        }
+    ]
+}

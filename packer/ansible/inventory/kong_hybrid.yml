@@ -1,0 +1,77 @@
+---
+# Deploy the app, note: don't do these tasks with become sudo
+- hosts: 127.0.0.1
+  connection: local
+  become: yes
+  tasks:
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        update_cache: yes
+
+    - name: Install packages
+      become: true
+      apt:
+        name: apt-transport-https
+        state: present
+        update_cache: true
+      
+    - name: Install packages
+      become: true
+      apt:
+        name: curl
+        state: present
+        update_cache: true
+
+    - name: Install packages
+      become: true
+      apt:
+        name: lsb-core
+        state: present
+        update_cache: true
+
+    - name: Start deb
+      become: true
+      shell: echo "deb https://kong.bintray.com/kong-deb `lsb_release -sc` main" | sudo tee -a /etc/apt/sources.list
+
+    - name: Start deb
+      become: true
+      get_url:
+        url: https://bintray.com/user/downloadSubjectPublicKey?username=bintray
+        dest: /tmp/bintray.key
+
+    - name: Add an apt key by id from a keyserver
+      apt_key:
+        file: /tmp/bintray.key
+        state: present
+
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        update_cache: yes
+
+    - name: Install kong
+      become: true
+      apt:
+        name: kong=2.1.4
+        state: present
+        update_cache: true
+    
+    - name: Gen cert hybird
+      become: true
+      shell: |
+        cd /usr/conf/kong
+        sudo kong hybrid gen_cert
+
+    - name: Copy file with owner and permissions
+      become: true
+      copy:
+        src: /usr/conf/kong/kong.conf
+        dest: /etc/kong/kong.conf        
+
+    - name: Kong migrations
+      become: true
+      become_method: sudo
+      shell: kong migrations bootstrap
+
+        
