@@ -18,7 +18,7 @@ resource "google_compute_instance" "kong-cp" {
     machine_type = var.machine_type
     zone         = var.zone
 
-    tags = ["kong-cp"]
+    tags = ["kong-cp", "kong-firewall-${var.region}"]
 
     boot_disk {
         initialize_params {
@@ -56,7 +56,7 @@ resource "google_compute_instance" "kong-dp" {
     machine_type = var.machine_type
     zone         = var.zone
 
-    tags = ["kong-dp"]
+    tags = ["kong-dp", "kong-firewall-${var.region}"]
 
     boot_disk {
         initialize_params {
@@ -96,7 +96,7 @@ resource "google_compute_instance_group" "kong-dp-group" {
 # KONG COMMON
 resource "google_compute_firewall" "kong-firewall" {
     project    = var.gcp_project
-    name       = "kong-firewall"
+    name       = "kong-firewall-${var.region}"
     network    = var.network
     target_tags = ["kong-firewall"]
 
