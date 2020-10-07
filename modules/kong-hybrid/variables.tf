@@ -63,7 +63,7 @@ variable "network" {
 # These variables have defaults, but may be overridden by the operator.
 # ---------------------------------------------------------------------------------------------------------------------
 
-variable "machine-type" {
+variable "machine_type" {
   description = "Machine type."
   type        = string
   default     = ""
