@@ -86,7 +86,7 @@ resource "google_compute_instance" "kong-dp" {
     metadata_startup_script = var.kong_startup_script
 }
 
-resource "google_compute_instance_group" "kong-dp-group" {
+resource "google_compute_instance_group" "kong-dp-group-${var.region}" {
     project            = var.gcp_project
     name               = "${var.kong_dp_group}-${var.region}"
     zone               = var.zone
