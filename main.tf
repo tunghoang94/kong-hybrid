@@ -2,16 +2,16 @@ locals {
     project             = var.gcp_project
     
     # kong conf
-    kong_cp_name            = "kong_cp"
+    kong_cp_name            = "kong-cp"
     kong_cp_image_taiwan    = "kong-cp-taiwan-1602062265"
     kong_cp_image_singapore = "kong-cp-singapore-1602062491"
     kong_cp_ip_taiwan       = "10.140.0.50"
     kong_cp_ip_singapore    = "10.148.0.50"
 
-    kong_dp_name            = "kong_dp"
+    kong_dp_name            = "kong-dp"
     kong_dp_image_taiwan    = "kong-dp-taiwan-1602062757"
     kong_dp_image_singapore = "kong-dp-singapore-1602062987"
-    kong_dp_group           = "kong_dp"
+    kong_dp_group           = "kong-dp"
     
     kong_startup_script    = file("scripts/startup_kong_hybrid.sh")
 
