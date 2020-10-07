@@ -22,6 +22,7 @@ locals {
     
     # lb 
     lb_name             = "kong-internal-lb"
+    region              = "asia-east1"
     network             = "default"
     port                = 80
     http_health_check   = false
@@ -47,30 +48,30 @@ module "kong-hybrid-taiwan" {
     network             = local.network
 }
 
-# module "internal-lb" {
-#     source  = "./modules/tf-internal-lb-gcp"
-#     name    = local.lb_name
-#     gcp_region  = local.region
-#     gcp_project = local.project
+module "internal-lb" {
+    source  = "./modules/tf-internal-lb-gcp"
+    name    = local.lb_name
+    gcp_region  = local.region
+    gcp_project = local.project
     
-#     backends = [
-#         {
-#             description = "Instance group for internal-load-balancer"
-#             group       = google_compute_instance_group.kong-dp-group-taiwan.self_link
-#         },
-#         {
-#             description = "Instance group for internal-load-balancer"
-#             group       = google_compute_instance_group.kong-dp-group-hongkong.self_link
-#         }
-#     ]
+    backends = [
+        {
+            description = "Instance group for internal-load-balancer"
+            group       = google_compute_instance_group.kong-dp-group-taiwan.self_link
+        },
+        # {
+        #     description = "Instance group for internal-load-balancer"
+        #     group       = google_compute_instance_group.kong-dp-group-hongkong.self_link
+        # }
+    ]
 
-#     # This setting will enable internal DNS for the load balancer
-#     service_label   = local.name
-#     gcp_network     = local.network
+    # This setting will enable internal DNS for the load balancer
+    service_label          = local.lb_name
+    gcp_network            = local.network
 
-#     health_check_port      = local.port
-#     http_health_check      = local.http_health_check
-#     target_tags            = [local.name]
-#     source_tags            = [local.name]
-#     ports                  = [local.port]
-# }
+    health_check_port      = local.port
+    http_health_check      = local.http_health_check
+    target_tags            = [local.lb_name]
+    source_tags            = [local.lb_name]
+    ports                  = [local.port]
+}
