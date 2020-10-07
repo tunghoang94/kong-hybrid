@@ -5,6 +5,10 @@ terraform {
 
 resource "random_string" "vm-name" {
   length  = 4
+  upper   = false
+  number  = false
+  lower   = true
+  special = false
 }
 
 # KONG CONTROL PLANE
