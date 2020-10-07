@@ -64,8 +64,7 @@ module "internal-lb" {
     #     #     group       = google_compute_instance_group.kong-dp-group-hongkong.self_link
     #     # }
     # ]
-    backends = [google_compute_instance_group.kong-dp-group.self_link,]
-    )
+    backends = [google_compute_instance_group.kong-dp-group.self_link]
 
     # This setting will enable internal DNS for the load balancer
     service_label          = local.lb_name
