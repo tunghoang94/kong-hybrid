@@ -13,6 +13,11 @@ variable "regions" {
     type        = list(string)
 }
 
+variable "zones" {
+    description = "Region"
+    type        = list(string)
+}
+
 variable "kong_dp_name" {
     description = "Kong data plane name."
     type        = string

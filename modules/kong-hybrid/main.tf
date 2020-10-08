@@ -158,14 +158,14 @@ resource "google_compute_instance" "kong-dp-region2" {
 resource "google_compute_instance_group" "kong-dp-group-region1" {
     project            = var.gcp_project
     name               = "${var.kong_dp_group}-${var.regions[0]}"
-    zone               = var.zone
+    zone               = var.zones[0]
     instances          = [google_compute_instance.kong-dp-region1.id]
 }
 
 resource "google_compute_instance_group" "kong-dp-group-region2" {
     project            = var.gcp_project
     name               = "${var.kong_dp_group}-${var.regions[1]}"
-    zone               = var.zone
+    zone               = var.zones[1]
     instances          = [google_compute_instance.kong-dp-region2.id]
 }
 

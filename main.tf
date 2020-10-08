@@ -34,7 +34,8 @@ module "kong-hybrid" {
     
     gcp_project     = local.project
     regions         = [local.region_taiwan, local.region_singapore]
-    
+    zones           = [local.zone_taiwan, local.zone_singapore]
+
     kong_dp_name    = local.kong_dp_name
     kong_dp_images  = [local.kong_dp_image_taiwan, local.kong_dp_image_taiwan] 
     kong_dp_group   = local.kong_dp_group
