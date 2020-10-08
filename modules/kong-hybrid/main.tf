@@ -349,7 +349,7 @@ resource "google_compute_url_map" "default" {
         default_service = google_compute_backend_service.default.id
 
         path_rule {
-            paths   = ["/"]
+            paths   = ["/*"]
             service = google_compute_backend_service.default.id
         }
     }
@@ -449,5 +449,5 @@ resource "google_compute_firewall" "health_check" {
     source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
 
     # Target tags define the instances to which the rule applies
-    target_tags = concat(var.target_tags, ["kong-firewall"])
+    target_tags = var.target_tags
 }
