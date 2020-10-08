@@ -271,7 +271,7 @@ resource "google_compute_health_check" "http" {
 # Load balancer firewall allows ingress traffic from instances tagged with any of the ´var.source_tags´
 resource "google_compute_firewall" "load_balancer" {
     project = var.gcp_project
-    name    = format("%s-ilb-fw", var.name)
+    name    = format("%s-ilb-fw", var.lb_name)
     network = var.gcp_network
 
     allow {
@@ -290,7 +290,7 @@ resource "google_compute_firewall" "load_balancer" {
 # Health check firewall allows ingress tcp traffic from the health check IP addresses
 resource "google_compute_firewall" "health_check" {
     project = var.gcp_project
-    name    = format("%s-hc", var.name)
+    name    = format("%s-hc", var.lb_name)
     network = var.gcp_network
 
     allow {
