@@ -362,7 +362,7 @@ resource "google_compute_url_map" "default" {
 resource "google_compute_backend_service" "default" {
     project          = var.gcp_project
     name             = var.lb_name
-    protocol         = var.protocol
+    protocol         = "HTTP"
     timeout_sec      = 10
     load_balancing_scheme = "INTERNAL_SELF_MANAGED"
     session_affinity = var.session_affinity
@@ -449,5 +449,5 @@ resource "google_compute_firewall" "health_check" {
     source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
 
     # Target tags define the instances to which the rule applies
-    target_tags = var.target_tags
+    target_tags = concat(var.target_tags, ["kong-firewall"])
 }
