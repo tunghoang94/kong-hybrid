@@ -318,15 +318,26 @@ resource "google_compute_health_check" "kong-dp-health-check" {
 #     # Due to the provider failing with an empty string, we're setting the name as service label default
 #     service_label = var.service_label == "" ? var.lb_name : var.service_label
 # }
+resource "google_compute_global_address" "paas-monitor" {
+  name = "paas-monitor"
+}
 
-resource "google_compute_global_forwarding_rule" "default" {
+resource "google_compute_global_forwarding_rule" "paas-monitor" {
     project               = var.gcp_project
     name                  = "global-rule"
-    target                = google_compute_target_http_proxy.default.id
+    ip_address            = "${google_compute_global_address.paas-monitor.address}"
     port_range            = "80"
-    load_balancing_scheme = "INTERNAL_SELF_MANAGED"
-    ip_address            = "0.0.0.0"
+    target                = google_compute_target_http_proxy.default.id
 }
+
+# resource "google_compute_global_forwarding_rule" "default" {
+#     project               = var.gcp_project
+#     name                  = "global-rule"
+#     target                = google_compute_target_http_proxy.default.id
+#     port_range            = "80"
+#     load_balancing_scheme = "INTERNAL_SELF_MANAGED"
+#     ip_address            = "0.0.0.0"
+# }
 
 resource "google_compute_target_http_proxy" "default" {
     name        = "target-proxy"
