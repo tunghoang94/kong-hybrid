@@ -216,7 +216,7 @@ resource "google_compute_forwarding_rule" "default" {
 
     # If service label is specified, it will be the first label of the fully qualified service name.
     # Due to the provider failing with an empty string, we're setting the name as service label default
-    service_label = var.service_label == "" ? var.name : var.service_label
+    service_label = var.service_label == "" ? var.lb_name : var.service_label
 }
 
 # ------------------------------------------------------------------------------
