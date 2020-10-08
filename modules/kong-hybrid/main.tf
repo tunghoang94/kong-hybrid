@@ -325,7 +325,8 @@ resource "google_compute_global_forwarding_rule" "default" {
     target                = google_compute_target_http_proxy.default.id
     port_range            = "80"
     load_balancing_scheme = "INTERNAL_SELF_MANAGED"
-    ip_address            = "0.0.0.0"
+    # ip_address            = "0.0.0.0"
+    network_tier          = "PREMIUM"
 }
 
 resource "google_compute_target_http_proxy" "default" {
@@ -349,7 +350,7 @@ resource "google_compute_url_map" "default" {
         default_service = google_compute_backend_service.default.id
 
         path_rule {
-            paths   = ["/*"]
+            paths   = ["/"]
             service = google_compute_backend_service.default.id
         }
     }
@@ -446,8 +447,8 @@ resource "google_compute_firewall" "health_check" {
     }
 
     # These IP ranges are required for health checks
-    source_ranges = ["130.211.0.0/22", "35.191.0.0/16", "0.0.0.0/0"]
+    source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
 
     # Target tags define the instances to which the rule applies
-    target_tags = var.target_tags
+    target_tags = concat(var.target_tags, ["kong-firewall"])
 }
