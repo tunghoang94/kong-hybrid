@@ -300,22 +300,64 @@ resource "google_compute_health_check" "kong-dp-health-check" {
 # resource "google_compute_global_forwarding_rule" "default" {
 #     project               = var.gcp_project
 #     name                  = var.lb_name
-#     target     = google_compute_target_http_proxy.default.id
-#     port_range = "80"
+#     target                = google_compute_target_http_proxy.default.id
+#     port_range            = "80"
 # }
+
+# resource "google_compute_global_forwarding_rule" "default" {
+#     project               = var.gcp_project
+#     name                  = var.lb_name
+#     network               = var.gcp_network
+#     subnetwork            = var.gcp_subnetwork
+#     load_balancing_scheme = "INTERNAL_SELF_MANAGED"
+#     backend_service       = google_compute_backend_service.default.self_link
+#     ip_protocol           = var.protocol
+#     ports                 = var.ports
+
+#     # If service label is specified, it will be the first label of the fully qualified service name.
+#     # Due to the provider failing with an empty string, we're setting the name as service label default
+#     service_label = var.service_label == "" ? var.lb_name : var.service_label
+# }
+
 resource "google_compute_global_forwarding_rule" "default" {
     project               = var.gcp_project
-    name                  = var.lb_name
-    network               = var.gcp_network
-    subnetwork            = var.gcp_subnetwork
-    load_balancing_scheme = "INTERNAL"
-    backend_service       = google_compute_backend_service.default.self_link
-    ip_protocol           = var.protocol
-    ports                 = var.ports
+    name                  = "global-rule"
+    target                = google_compute_target_http_proxy.default.id
+    port_range            = "80"
+    load_balancing_scheme = "INTERNAL_SELF_MANAGED"
+    ip_address            = "0.0.0.0"
 
-    # If service label is specified, it will be the first label of the fully qualified service name.
-    # Due to the provider failing with an empty string, we're setting the name as service label default
-    service_label = var.service_label == "" ? var.lb_name : var.service_label
+    metadata_filters {
+        filter_match_criteria = "MATCH_ANY"
+    }
+}
+
+resource "google_compute_target_http_proxy" "default" {
+    name        = "target-proxy"
+    description = "a description"
+    url_map     = google_compute_url_map.default.id
+}
+
+resource "google_compute_url_map" "default" {
+    provider        = google-beta
+    name            = "url-map-target-proxy"
+    description     = "a description"
+    default_service = google_compute_backend_service.default.id
+
+    host_rule {
+        hosts        = ["example.com"]
+        path_matcher = "allpaths"
+    }
+
+    path_matcher {
+        name            = "allpaths"
+        default_service = google_compute_backend_service.default.id
+
+        path_rule {
+            paths   = ["/*"]
+            service = google_compute_backend_service.default.id
+        }
+    }
 }
 
 # ------------------------------------------------------------------------------
