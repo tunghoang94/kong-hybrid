@@ -326,7 +326,6 @@ resource "google_compute_global_forwarding_rule" "default" {
     port_range            = "80"
     load_balancing_scheme = "INTERNAL_SELF_MANAGED"
     # ip_address            = "0.0.0.0"
-    network_tier          = "PREMIUM"
 }
 
 resource "google_compute_target_http_proxy" "default" {
