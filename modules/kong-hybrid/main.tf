@@ -217,16 +217,13 @@ resource "google_compute_region_backend_service" "default" {
     timeout_sec      = 10
     session_affinity = var.session_affinity
 
-    backend = [
-        {
-            description = "Instance group for internal-load-balancer"
-            group       = google_compute_instance_group.kong-dp-group-region1.self_link
-        },
-        {
-            description = "Instance group for internal-load-balancer"
-            group       = google_compute_instance_group.kong-dp-group-region2.self_link
+    dynamic "backend" {
+        for_each = var.backends
+        content {
+            description = lookup(backend.value, "description", null)
+            group       = lookup(backend.value, "group", null)
         }
-    ]
+    }
 
     health_checks = [
         compact(

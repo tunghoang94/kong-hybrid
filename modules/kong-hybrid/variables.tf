@@ -73,6 +73,18 @@ variable "health_check_port" {
   type        = number
 }
 
+variable "backends" {
+  description = "List of backends, should be a map of key-value pairs for each backend, must have the 'group' key."
+  type        = list(map(string))
+  # Example
+  # backends = [
+  #   {
+  #     description = "Sample Instance Group for Internal LB",
+  #     group       = "The fully-qualified URL of an Instance Group"
+  #   }   
+  # ]
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL MODULE PARAMETERS
 # These variables have defaults, but may be overridden by the operator.
