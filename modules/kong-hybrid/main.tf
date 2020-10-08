@@ -214,7 +214,7 @@ resource "google_compute_forwarding_rule" "default" {
     network               = var.gcp_network
     subnetwork            = var.gcp_subnetwork
     load_balancing_scheme = "INTERNAL"
-    backend_service       = google_compute_region_backend_service.default.self_link
+    backend_service       = google_compute_backend_service.default.self_link
     ip_protocol           = var.protocol
     ports                 = var.ports
 
@@ -227,7 +227,7 @@ resource "google_compute_forwarding_rule" "default" {
 # CREATE BACKEND SERVICE
 # ------------------------------------------------------------------------------
 
-resource "google_compute_region_backend_service" "default" {
+resource "google_compute_backend_service" "default" {
     project          = var.gcp_project
     name             = var.lb_name
     protocol         = var.protocol
