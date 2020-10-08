@@ -325,7 +325,7 @@ resource "google_compute_global_address" "paas-monitor" {
 resource "google_compute_global_forwarding_rule" "paas-monitor" {
     project               = var.gcp_project
     name                  = "global-rule"
-    ip_address            = "${google_compute_global_address.paas-monitor.address}"
+    ip_address            = google_compute_global_address.paas-monitor.address
     port_range            = "80"
     target                = google_compute_target_http_proxy.default.id
 }
@@ -341,14 +341,12 @@ resource "google_compute_global_forwarding_rule" "paas-monitor" {
 
 resource "google_compute_target_http_proxy" "default" {
     name        = "target-proxy"
-    description = "a description"
-    url_map     = google_compute_url_map.default.id
+    url_map     = google_compute_url_map.default.self_link
 }
 
 resource "google_compute_url_map" "default" {
     name            = "url-map-target-proxy"
-    description     = "a description"
-    default_service = google_compute_backend_service.default.id
+    default_service = google_compute_backend_service.default.self_link
 
     host_rule {
         hosts        = ["example.com"]
@@ -360,7 +358,7 @@ resource "google_compute_url_map" "default" {
         default_service = google_compute_backend_service.default.id
 
         path_rule {
-            paths   = ["/*"]
+            paths   = ["/"]
             service = google_compute_backend_service.default.id
         }
     }
@@ -375,8 +373,8 @@ resource "google_compute_backend_service" "default" {
     name             = var.lb_name
     protocol         = "HTTP"
     timeout_sec      = 10
-    load_balancing_scheme = "INTERNAL_SELF_MANAGED"
-    session_affinity = var.session_affinity
+    # load_balancing_scheme = "INTERNAL_SELF_MANAGED"
+    session_affinity = "NONE"
 
     dynamic "backend" {
         for_each = local.backends

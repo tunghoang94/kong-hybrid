@@ -56,12 +56,6 @@
         name: kong=2.1.4
         state: present
         update_cache: true
-    
-    - name: Gen cert hybird
-      become: true
-      shell: |
-        cd /usr/conf/kong
-        sudo kong hybrid gen_cert
 
     - name: Copy file with owner and permissions
       become: true
