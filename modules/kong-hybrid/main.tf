@@ -297,12 +297,12 @@ resource "google_compute_health_check" "kong-dp-health-check" {
 # CREATE FORWARDING RULE
 # ------------------------------------------------------------------------------
 
-resource "google_compute_global_forwarding_rule" "default" {
-    project               = var.gcp_project
-    name                  = var.lb_name
-    target     = google_compute_target_http_proxy.default.id
-    port_range = "80"
-}
+# resource "google_compute_global_forwarding_rule" "default" {
+#     project               = var.gcp_project
+#     name                  = var.lb_name
+#     target     = google_compute_target_http_proxy.default.id
+#     port_range = "80"
+# }
 resource "google_compute_global_forwarding_rule" "default" {
     project               = var.gcp_project
     name                  = var.lb_name
