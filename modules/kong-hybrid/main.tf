@@ -364,6 +364,7 @@ resource "google_compute_backend_service" "default" {
     name             = var.lb_name
     protocol         = var.protocol
     timeout_sec      = 10
+    load_balancing_scheme = "INTERNAL_SELF_MANAGED"
     session_affinity = var.session_affinity
 
     dynamic "backend" {
