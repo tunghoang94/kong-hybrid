@@ -90,3 +90,68 @@ variable "root_volume_disk_type" {
   type        = string
   default     = "pd-standard"
 }
+
+variable "gcp_network" {
+  description = "Self link of the VPC network in which to deploy the resources."
+  type        = string
+}
+
+variable "gcp_subnetwork" {
+  description = "Self link of the VPC subnetwork in which to deploy the resources."
+  type        = string
+  default     = ""
+}
+
+variable "protocol" {
+  description = "The protocol for the backend and frontend forwarding rule. TCP or UDP."
+  type        = string
+  default     = "TCP"
+}
+
+variable "ip_address" {
+  description = "IP address of the load balancer. If empty, an IP address will be automatically assigned."
+  type        = string
+  default     = ""
+}
+
+variable "service_label" {
+  description = "An optional prefix to the service name for this Forwarding Rule. If specified, will be the first label of the fully qualified service name."
+  type        = string
+  default     = ""
+}
+
+variable "gcp_network_project" {
+  description = "The name of the GCP Project where the network is located. Useful when using networks shared between projects. If empty, var.project will be used."
+  type        = string
+  default     = ""
+}
+
+variable "http_health_check" {
+  description = "Set to true if health check is type http, otherwise health check is tcp."
+  type        = bool
+  default     = false
+}
+
+variable "session_affinity" {
+  description = "The session affinity for the backends, e.g.: NONE, CLIENT_IP. Default is `NONE`."
+  type        = string
+  default     = "NONE"
+}
+
+variable "source_tags" {
+  description = "List of source tags for traffic between the internal load balancer."
+  type        = list(string)
+  default     = []
+}
+
+variable "target_tags" {
+  description = "List of target tags for traffic between the internal load balancer."
+  type        = list(string)
+  default     = []
+}
+
+variable "custom_labels" {
+  description = "A map of custom labels to apply to the resources. The key is the label name and the value is the label value."
+  type        = map(string)
+  default     = {}
+}
