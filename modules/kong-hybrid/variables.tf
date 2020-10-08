@@ -110,7 +110,7 @@ variable "gcp_subnetwork" {
 variable "protocol" {
   description = "The protocol for the backend and frontend forwarding rule. TCP or UDP."
   type        = string
-  default     = "TCP"
+  default     = "HTTP"
 }
 
 variable "ip_address" {
