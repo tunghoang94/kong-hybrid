@@ -15,8 +15,8 @@ locals {
     
     kong_startup_script    = file("scripts/startup_kong_hybrid.sh")
 
-    region_taiwan       = "taiwan"
-    region_singapore    = "singapore"
+    region_taiwan       = "asia-east1"
+    region_singapore    = "asia-southeast1"
     zone_taiwan         = "asia-east1-a"
     zone_singapore      = "asia-southeast1-a"
     
