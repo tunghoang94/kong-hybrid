@@ -207,8 +207,7 @@ resource "google_compute_firewall" "kong-firewall" {
 # CREATE FORWARDING RULE
 # ------------------------------------------------------------------------------
 
-resource "google_compute_forwarding_rule" "default" {
-    provider              = google
+resource "google_compute_global_forwarding_rule" "default" {
     project               = var.gcp_project
     name                  = var.lb_name
     network               = var.gcp_network
