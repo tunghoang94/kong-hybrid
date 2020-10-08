@@ -289,7 +289,7 @@ resource "google_compute_health_check" "kong-dp-health-check" {
   unhealthy_threshold = 3
 
   tcp_health_check {
-    port         = "8000"
+    port         = "80"
   }
 }
 
