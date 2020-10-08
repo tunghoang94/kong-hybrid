@@ -11,7 +11,7 @@ locals {
         },
         {
             description = "Instance group for internal-load-balancer"
-            group       = google_compute_instance_group.kong-dp-group-region2.instance_group
+            group       = google_compute_region_instance_group_manager.kong-dp-group-region2.instance_group
         }
     ]
 }
