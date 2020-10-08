@@ -29,47 +29,26 @@ locals {
     custom_labels       = ["ilb"]
 }
 
-module "kong-hybrid-taiwan" {
+module "kong-hybrid" {
     source          = "./modules/kong-hybrid"
     
     gcp_project     = local.project
-    region          = local.region_taiwan
-    zone            = local.zone_taiwan
+    regions         = [local.region_taiwan, local.region_singapore]
     
     kong_dp_name    = local.kong_dp_name
-    kong_dp_image   = local.kong_dp_image_taiwan
+    kong_dp_images  = [local.kong_dp_image_taiwan, local.kong_dp_image_taiwan] 
     kong_dp_group   = local.kong_dp_group
 
     kong_cp_name    = local.kong_cp_name
-    kong_cp_image   = local.kong_cp_image_taiwan
-    kong_cp_ip      = local.kong_cp_ip_taiwan
+    kong_cp_images  = [local.kong_cp_image_taiwan, local.kong_cp_image_singapore]
+    kong_cp_ips     = [local.kong_cp_ip_taiwan, local.kong_cp_ip_singapore]
 
     kong_startup_script = local.kong_startup_script
     network             = local.network
-}
 
-module "internal-lb" {
-    source  = "./modules/tf-internal-lb-gcp"
-    name    = local.lb_name
-    gcp_region  = local.region
-    gcp_project = local.project
-    
-    # backends = [
-    #     {
-    #         description = "Instance group for internal-load-balancer"
-    #         group       = google_compute_instance_group.kong-dp-group.*.self_link
-    #     },
-    #     # {
-    #     #     description = "Instance group for internal-load-balancer"
-    #     #     group       = google_compute_instance_group.kong-dp-group-hongkong.self_link
-    #     # }
-    # ]
-    backends = [google_compute_instance_group.kong-dp-group.self_link]
-
-    # This setting will enable internal DNS for the load balancer
+    lb_name                = local.lb_name
     service_label          = local.lb_name
     gcp_network            = local.network
-
     health_check_port      = local.port
     http_health_check      = local.http_health_check
     target_tags            = [local.lb_name]

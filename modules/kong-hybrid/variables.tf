@@ -8,14 +8,9 @@ variable "gcp_project" {
     type        = string
 }
 
-variable "region" {
+variable "regions" {
     description = "Region"
-    type        = string
-}
-
-variable "zone" {
-    description = "Zone."
-    type        = string
+    type        = list(string)
 }
 
 variable "kong_dp_name" {
@@ -23,9 +18,9 @@ variable "kong_dp_name" {
     type        = string
 }
 
-variable "kong_dp_image" {
+variable "kong_dp_images" {
     description = "Kong data plane image built by packer."
-    type        = string
+    type        = list(string)
 }
 
 variable "kong_dp_group" {
@@ -38,14 +33,14 @@ variable "kong_cp_name" {
     type        = string
 }
 
-variable "kong_cp_image" {
+variable "kong_cp_images" {
     description = "Kong control plane image built by packer."
-    type        = string
+    type        = list(string)
 }
 
-variable "kong_cp_ip" {
-    description = "Kong control plane network ip."
-    type        = string
+variable "kong_cp_ips" {
+    description = "Kong control plane network ips."
+    type        = list(string)
 }
 
 variable "kong_startup_script" {
@@ -56,6 +51,21 @@ variable "kong_startup_script" {
 variable "network" {
     description = "Network."
     type        = string
+}
+
+variable "lb_name" {
+  description = "Name for the load balancer forwarding rule and prefix for supporting resources."
+  type        = string
+}
+
+variable "ports" {
+  description = "List of ports (or port ranges) to forward to backend services. Max is 5."
+  type        = list(string)
+}
+
+variable "health_check_port" {
+  description = "Port to perform health checks on."
+  type        = number
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
