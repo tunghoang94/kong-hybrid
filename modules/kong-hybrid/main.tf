@@ -27,6 +27,7 @@ resource "random_string" "vm-name" {
 # KONG CONTROL PLANE
 resource "google_compute_instance" "kong-cp-region1" {
     project      = var.gcp_project
+    zone         = var.zones[0]
     name         = "${var.kong_cp_name}-${var.regions[0]}-${random_string.vm-name.result}"
     machine_type = var.machine_type
 
@@ -63,6 +64,7 @@ resource "google_compute_instance" "kong-cp-region1" {
 
 resource "google_compute_instance" "kong-cp-region2" {
     project      = var.gcp_project
+    zone         = var.zones[1]
     name         = "${var.kong_cp_name}-${var.regions[1]}-${random_string.vm-name.result}"
     machine_type = var.machine_type
 
@@ -100,6 +102,7 @@ resource "google_compute_instance" "kong-cp-region2" {
 # KONG DATA PLANE
 resource "google_compute_instance" "kong-dp-region1" {
     project      = var.gcp_project
+    zone         = var.zones[0]
     name         = "${var.kong_dp_name}-${var.regions[0]}-${random_string.vm-name.result}"
     machine_type = var.machine_type
 
@@ -135,6 +138,7 @@ resource "google_compute_instance" "kong-dp-region1" {
 
 resource "google_compute_instance" "kong-dp-region2" {
     project      = var.gcp_project
+    zone         = var.zones[1]
     name         = "${var.kong_dp_name}-${var.regions[1]}-${random_string.vm-name.result}"
     machine_type = var.machine_type
 
