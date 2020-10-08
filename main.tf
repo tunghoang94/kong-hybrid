@@ -55,14 +55,4 @@ module "kong-hybrid" {
     target_tags            = [local.lb_name]
     source_tags            = [local.lb_name]
     ports                  = [local.port]
-    backends = [
-        {
-            description = "Instance group for internal-load-balancer"
-            group       = google_compute_instance_group.kong-dp-group-region1.self_link
-        },
-        {
-            description = "Instance group for internal-load-balancer"
-            group       = google_compute_instance_group.kong-dp-group-region2.self_link
-        }
-    ]
 }

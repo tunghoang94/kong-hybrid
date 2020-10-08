@@ -3,6 +3,19 @@ terraform {
   required_version = ">= 0.12"
 }
 
+locals {
+    backends = [
+        {
+            description = "Instance group for internal-load-balancer"
+            group       = google_compute_instance_group.kong-dp-group-region1.self_link
+        },
+        {
+            description = "Instance group for internal-load-balancer"
+            group       = google_compute_instance_group.kong-dp-group-region2.self_link
+        }
+    ]
+}
+
 resource "random_string" "vm-name" {
   length  = 4
   upper   = false
@@ -218,7 +231,7 @@ resource "google_compute_region_backend_service" "default" {
     session_affinity = var.session_affinity
 
     dynamic "backend" {
-        for_each = var.backends
+        for_each = local.backends
         content {
             description = lookup(backend.value, "description", null)
             group       = lookup(backend.value, "group", null)
