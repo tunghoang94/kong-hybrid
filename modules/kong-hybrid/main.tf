@@ -339,7 +339,6 @@ resource "google_compute_target_http_proxy" "default" {
 }
 
 resource "google_compute_url_map" "default" {
-    provider        = google-beta
     name            = "url-map-target-proxy"
     description     = "a description"
     default_service = google_compute_backend_service.default.id
