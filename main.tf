@@ -27,6 +27,10 @@ locals {
     port                = 80
     http_health_check   = false
     custom_labels       = ["ilb"]
+
+    # admin
+    kong_admin_image           = ""
+    kong_admin_startup_script  = file("scripts/startup_kong_admin.sh")
 }
 
 module "kong-hybrid" {
@@ -55,4 +59,7 @@ module "kong-hybrid" {
     target_tags            = [local.lb_name]
     source_tags            = [local.lb_name]
     ports                  = [local.port]
+
+    kong_admin_image           = local.kong_admin_image
+    kong_admin_startup_script  = local.kong_admin_startup_script
 }

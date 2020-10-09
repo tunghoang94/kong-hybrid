@@ -64,7 +64,7 @@
     - name: Copy file with owner and permissions
       become: true
       copy:
-        src: /usr/conf/kong/kong.conf
-        dest: /usr/conf/kong/konga/kong.conf
+        src: /usr/conf/kong/.env
+        dest: /usr/conf/kong/konga/.env
 
         

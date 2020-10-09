@@ -53,6 +53,16 @@ variable "kong_startup_script" {
     type        = string
 }
 
+variable "kong_admin_image" {
+  	description = "Kong admin image built by packer."
+    type        = string
+}
+
+variable "kong_admin_startup_script" {
+    description = "Kong admin startup script url."
+    type        = string
+}
+
 variable "network" {
     description = "Network."
     type        = string
