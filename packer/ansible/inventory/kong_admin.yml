@@ -59,7 +59,7 @@
       become: true
       git:
         repo: 'https://github.com/pantsel/konga'
-        dest: /usr/conf/kong/
+        dest: /usr/conf/kong/konga
 
     - name: Copy file with owner and permissions
       become: true
