@@ -12,6 +12,6 @@ packer build -var 'region=singapore' -var 'conf_dir=packer/conf/kong-cp-singapor
 ```
 # kong dp multi region
 
-packer build -var 'region=taiwan' -var 'conf_dir=packer/conf/kong-dp-singapore' -var 'playbook=packer/ansible/inventory/kong_hybrid.yml' -var 'cluster_crt=packer/conf/cluster.crt' -var 'cluster_key=packer/conf/cluster.key' packer/kong_dp.json
+packer build -var 'region=taiwan' -var 'conf_dir=packer/conf/kong-dp-taiwan' -var 'playbook=packer/ansible/inventory/kong_hybrid.yml' -var 'cluster_crt=packer/conf/cluster.crt' -var 'cluster_key=packer/conf/cluster.key' packer/kong_dp.json
 packer build -var 'region=singapore' -var 'conf_dir=packer/conf/kong-dp-singapore' -var 'playbook=packer/ansible/inventory/kong_hybrid.yml' -var 'cluster_crt=packer/conf/cluster.crt' -var 'cluster_key=packer/conf/cluster.key' packer/kong_dp.json
 ```
