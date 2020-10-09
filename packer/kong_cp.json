@@ -37,12 +37,12 @@
         },
         {
             "type": "file",
-            "source": "{{user `cluster_crt`}}/",
+            "source": "{{user `cluster_crt`}}",
             "destination": "{{user `conf_out_dir`}}"
         },
         {
             "type": "file",
-            "source": "{{user `cluster_key`}}/",
+            "source": "{{user `cluster_key`}}",
             "destination": "{{user `conf_out_dir`}}"
         },
         {
