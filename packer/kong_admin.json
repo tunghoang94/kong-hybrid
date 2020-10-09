@@ -37,8 +37,8 @@
         },
         {
             "type": "file",
-            "source": "{{user `conf_dir`}}/",
-            "destination": "{{user `conf_out_dir`}}"
+            "source": "{{user `env_dir`}}/",
+            "destination": "{{user `conf_out_dir`}}/"
         },
         {
             "type": "ansible-local",
