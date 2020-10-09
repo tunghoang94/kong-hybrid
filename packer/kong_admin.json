@@ -37,7 +37,7 @@
         },
         {
             "type": "file",
-            "source": "{{user `env_dir`}}/",
+            "source": "{{user `env_dir`}}",
             "destination": "{{user `conf_out_dir`}}/"
         },
         {
