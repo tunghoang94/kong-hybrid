@@ -14,6 +14,7 @@
             "project_id": "{{user `project_id`}}",
             "tags": ["bastion-access"],
             "machine_type": "f1-micro",
+            "omit_external_ip": true,
             "source_image": "debian-9-stretch-v20200805",
             "source_image_family": "kong-hybrid",
             "account_file": "{{user `gcp_account_file`}}",
