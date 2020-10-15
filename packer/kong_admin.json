@@ -13,6 +13,7 @@
             "subnetwork": "{{user `subnetwork`}}",
             "project_id": "{{user `project_id`}}",
             "tags": ["bastion-access"],
+            "use_internal_ip": true,
             "omit_external_ip": true,
             "machine_type": "f1-micro",
             "source_image": "debian-9-stretch-v20200805",
