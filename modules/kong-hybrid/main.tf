@@ -31,7 +31,7 @@ resource "google_compute_instance" "kong-cp-region1" {
     name         = "${var.kong_cp_name}-${var.regions[0]}-${random_string.vm-name.result}"
     machine_type = var.machine_type
 
-    tags = ["kong-cp", "kong-firewall"]
+    tags = ["kong-cp", "kong-firewall", "bastion-access"]
 
     boot_disk {
         initialize_params {
@@ -46,6 +46,7 @@ resource "google_compute_instance" "kong-cp-region1" {
 
     network_interface {
         network = var.network
+        subnetwork = var.sub_networks[0]
         network_ip = var.kong_cp_ips[0]
 
         access_config {
@@ -68,7 +69,7 @@ resource "google_compute_instance" "kong-cp-region2" {
     name         = "${var.kong_cp_name}-${var.regions[1]}-${random_string.vm-name.result}"
     machine_type = var.machine_type
 
-    tags = ["kong-cp", "kong-firewall"]
+    tags = ["kong-cp", "kong-firewall", "bastion-access"]
 
     boot_disk {
         initialize_params {
@@ -83,6 +84,7 @@ resource "google_compute_instance" "kong-cp-region2" {
 
     network_interface {
         network = var.network
+        subnetwork = var.sub_networks[1]
         network_ip = var.kong_cp_ips[1]
 
         access_config {
@@ -106,7 +108,7 @@ resource "google_compute_instance" "kong-admin" {
     name         = "kong-admin"
     machine_type = var.machine_type
 
-    tags = ["kong-admin", "kong-firewall"]
+    tags = ["kong-admin", "kong-firewall", "bastion-access"]
 
     boot_disk {
         initialize_params {
@@ -140,7 +142,7 @@ resource "google_compute_instance_template" "kong-dp-instance-template-region1" 
     name         = "kong-dp-instance-template-region1"
     machine_type = "custom-2-2048"
     region       = var.regions[0]
-    tags         = ["kong-firewall"]
+    tags         = ["kong-dp", "kong-firewall", "bastion-access"]
     // boot disk
     disk {
         source_image = var.kong_dp_images[0]
@@ -148,7 +150,8 @@ resource "google_compute_instance_template" "kong-dp-instance-template-region1" 
 
     // networking
     network_interface {
-        network = "default"
+        network = var.network
+        subnetwork = var.sub_networks[0]
     }
 
     lifecycle {
@@ -162,7 +165,7 @@ resource "google_compute_instance_template" "kong-dp-instance-template-region2" 
     name         = "kong-dp-instance-template-region2"
     machine_type = "custom-2-2048"
     region       = var.regions[1]
-    tags         = ["kong-firewall"]
+    tags         = ["kong-dp", "kong-firewall", "bastion-access"]
     // boot disk
     disk {
         source_image = var.kong_dp_images[1]
@@ -170,7 +173,8 @@ resource "google_compute_instance_template" "kong-dp-instance-template-region2" 
 
     // networking
     network_interface {
-        network = "default"
+        network = var.network
+        subnetwork = var.sub_networks[1]
     }
 
     lifecycle {
@@ -243,35 +247,26 @@ resource "google_compute_health_check" "kong-dp-health-check" {
   }
 }
 
-resource "google_compute_global_address" "paas-monitor" {
-  name = "paas-monitor"
+resource "google_compute_global_address" "kong-global-address" {
+  name = "kong-global-address"
 }
 
-resource "google_compute_global_forwarding_rule" "paas-monitor" {
+resource "google_compute_global_forwarding_rule" "kong-global-forwarding-rule" {
     project               = var.gcp_project
-    name                  = "global-rule"
-    ip_address            = google_compute_global_address.paas-monitor.address
+    name                  = "kong-global-forwarding-rule"
+    ip_address            = google_compute_global_address.kong-global-address.address
     port_range            = "80"
-    target                = google_compute_target_http_proxy.default.id
+    target                = google_compute_target_http_proxy.kong-target-proxy.id
 }
 
-# resource "google_compute_global_forwarding_rule" "default" {
-#     project               = var.gcp_project
-#     name                  = "global-rule"
-#     target                = google_compute_target_http_proxy.default.id
-#     port_range            = "80"
-#     load_balancing_scheme = "INTERNAL_SELF_MANAGED"
-#     ip_address            = "0.0.0.0"
-# }
-
-resource "google_compute_target_http_proxy" "default" {
-    name        = "target-proxy"
-    url_map     = google_compute_url_map.default.self_link
+resource "google_compute_target_http_proxy" "kong-target-proxy" {
+    name        = "kong-target-proxy"
+    url_map     = google_compute_url_map.kong-url-map-target-proxy.self_link
 }
 
-resource "google_compute_url_map" "default" {
-    name            = "url-map-target-proxy"
-    default_service = google_compute_backend_service.default.self_link
+resource "google_compute_url_map" "kong-url-map-target-proxy" {
+    name            = "kong-url-map-target-proxy"
+    default_service = google_compute_backend_service.kong-backend.self_link
 
     host_rule {
         hosts        = ["example.com"]
@@ -280,11 +275,11 @@ resource "google_compute_url_map" "default" {
 
     path_matcher {
         name            = "allpaths"
-        default_service = google_compute_backend_service.default.id
+        default_service = google_compute_backend_service.kong-backend.id
 
         path_rule {
             paths   = ["/"]
-            service = google_compute_backend_service.default.id
+            service = google_compute_backend_service.kong-backend.id
         }
     }
 }
@@ -293,7 +288,7 @@ resource "google_compute_url_map" "default" {
 # CREATE BACKEND SERVICE
 # ------------------------------------------------------------------------------
 
-resource "google_compute_backend_service" "default" {
+resource "google_compute_backend_service" "kong-backend" {
     project          = var.gcp_project
     name             = var.lb_name
     protocol         = "HTTP"

@@ -68,6 +68,11 @@ variable "network" {
     type        = string
 }
 
+variable "sub_networks" {
+    description = "Sub Network."
+    type        = list(string)
+}
+
 variable "lb_name" {
   description = "Name for the load balancer forwarding rule and prefix for supporting resources."
   type        = string

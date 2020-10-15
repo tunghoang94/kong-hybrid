@@ -3,14 +3,14 @@ locals {
     
     # kong conf
     kong_cp_name            = "kong-cp"
-    kong_cp_image_taiwan    = "kong-cp-taiwan-1602210853"
-    kong_cp_image_singapore = "kong-cp-singapore-1602211484"
-    kong_cp_ip_taiwan       = "10.140.0.50"
-    kong_cp_ip_singapore    = "10.148.0.50"
+    kong_cp_image_taiwan    = "kong-cp-taiwan-1602743696"
+    kong_cp_image_singapore = "kong-cp-singapore-1602744209"
+    kong_cp_ip_taiwan       = "10.127.0.50"
+    kong_cp_ip_singapore    = "10.128.0.50"
 
     kong_dp_name            = "kong-dp"
-    kong_dp_image_taiwan    = "kong-dp-taiwan-1602211738"
-    kong_dp_image_singapore = "kong-dp-singapore-1602211993"
+    kong_dp_image_taiwan    = "kong-dp-taiwan-1602744424"
+    kong_dp_image_singapore = "kong-dp-singapore-1602744629"
     kong_dp_group           = "kong-dp"
     
     kong_startup_script    = file("scripts/startup_kong_hybrid.sh")
@@ -20,10 +20,14 @@ locals {
     zone_taiwan         = "asia-east1-a"
     zone_singapore      = "asia-southeast1-a"
     
+    # network
+    network             = "connectivity-platform"
+    subnetwork_taiwan   = "connectivity-platform-dc1"
+    subnetwork_singapore   = "connectivity-platform-dc2"
+
     # lb 
     lb_name             = "kong-internal-lb"
     region              = "asia-east1"
-    network             = "default"
     port                = 80
     http_health_check   = false
     custom_labels       = ["ilb"]
@@ -41,7 +45,7 @@ module "kong-hybrid" {
     zones           = [local.zone_taiwan, local.zone_singapore]
 
     kong_dp_name    = local.kong_dp_name
-    kong_dp_images  = [local.kong_dp_image_taiwan, local.kong_dp_image_taiwan] 
+    kong_dp_images  = [local.kong_dp_image_taiwan, local.kong_dp_image_singapore] 
     kong_dp_group   = local.kong_dp_group
 
     kong_cp_name    = local.kong_cp_name
@@ -50,6 +54,7 @@ module "kong-hybrid" {
 
     kong_startup_script = local.kong_startup_script
     network             = local.network
+    sub_networks        = [local.subnetwork_taiwan, local.subnetwork_singapore]
 
     lb_name                = local.lb_name
     service_label          = local.lb_name
