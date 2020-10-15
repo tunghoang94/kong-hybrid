@@ -1,4 +1,4 @@
 variable "gcp_project" {
     type = string
-    default = "sa101-286802"
+    default = "driven-stage-269911"
 }
