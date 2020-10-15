@@ -13,6 +13,7 @@
             "subnetwork": "{{user `subnetwork`}}",
             "project_id": "{{user `project_id`}}",
             "machine_type": "f1-micro",
+            "tags": ["bastion-access"],
             "source_image": "debian-9-stretch-v20200805",
             "source_image_family": "kong-hybrid",
             "account_file": "{{user `gcp_account_file`}}",
