@@ -130,7 +130,7 @@ resource "google_compute_instance" "kong-admin" {
         subnetwork = var.sub_networks[0]
         access_config {
             // Ephemeral IP
-            nat_ip = "${google_compute_address.test-static-ip-address.address}"
+            nat_ip = "${google_compute_address.kong-admin-global-address.address}"
         }
     }
 
