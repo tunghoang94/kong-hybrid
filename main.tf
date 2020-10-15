@@ -33,7 +33,7 @@ locals {
     custom_labels       = ["ilb"]
 
     # admin
-    kong_admin_image           = "kong-admin-1602218329"
+    kong_admin_image           = "kong-admin-1602748442"
     kong_admin_startup_script  = file("scripts/startup_kong_admin.sh")
 }
 
