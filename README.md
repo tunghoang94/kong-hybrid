@@ -4,7 +4,7 @@ This module will help you deploy a connectivity platform
 <h2>1. Build image kong cp hybrid</h2>
 # kong cp multi region
 ```
-packer build -var 'region=taiwan' -var 'conf_dir=packer/conf/kong-cp-taiwan' -var 'playbook=packer/ansible/inventory/kong_hybrid.yml' -var 'cluster_crt=packer/conf/cluster.crt' -var 'cluster_key=packer/conf/cluster.key' packer/kong_cp.json
+packer build -var 'region=taiwan' -var 'conf_dir=packer/conf/kong-cp-taiwan' -var 'playbook=packer/ansible/inventory/kong_hybrid.yml' -var 'cluster_crt=packer/conf/cluster.crt' -var 'cluster_key=packer/conf/cluster.key' -var 'subnetwork='connectivity-platform-dc1' packer/kong_cp.json
 packer build -var 'region=singapore' -var 'conf_dir=packer/conf/kong-cp-singapore' -var 'playbook=packer/ansible/inventory/kong_hybrid.yml' -var 'cluster_crt=packer/conf/cluster.crt' -var 'cluster_key=packer/conf/cluster.key' packer/kong_cp.json
 ```
 

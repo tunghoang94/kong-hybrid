@@ -2,6 +2,7 @@
     "variables": {
         "zone": "asia-east1-a",
         "gcp_account_file": "account.json",
+        "network": "connectivity-platform",
         "project_id": "driven-stage-269911",
         "conf_out_dir": "/usr/conf/kong"
     },
@@ -9,6 +10,7 @@
         {
             "type": "googlecompute",
             "image_name": "kong-dp-{{user `region`}}-{{timestamp}}",
+            "subnetwork": "{{user `subnetwork`}}",
             "project_id": "{{user `project_id`}}",
             "machine_type": "f1-micro",
             "source_image": "debian-9-stretch-v20200805",
