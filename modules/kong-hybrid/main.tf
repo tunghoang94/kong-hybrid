@@ -102,6 +102,10 @@ resource "google_compute_instance" "kong-cp-region2" {
 }
 
 # KONG ADMIN
+resource "google_compute_global_address" "kong-admin-global-address" {
+  name = "kong-admin-global-address"
+}
+
 resource "google_compute_instance" "kong-admin" {
     project      = var.gcp_project
     zone         = var.zones[0]
@@ -126,6 +130,7 @@ resource "google_compute_instance" "kong-admin" {
         subnetwork = var.sub_networks[0]
         access_config {
             // Ephemeral IP
+            nat_ip = "${google_compute_address.test-static-ip-address.address}"
         }
     }
 
@@ -231,7 +236,7 @@ resource "google_compute_firewall" "kong-firewall" {
     
     allow {
         protocol = "tcp"
-        ports    = ["22", "80", "443"]
+        ports    = ["22", "80", "443", "1337"]
     }
 }
 
@@ -269,7 +274,7 @@ resource "google_compute_url_map" "kong-url-map-target-proxy" {
     default_service = google_compute_backend_service.kong-backend.self_link
 
     host_rule {
-        hosts        = ["example.com"]
+        hosts        = var.hosts_url_map
         path_matcher = "allpaths"
     }
 

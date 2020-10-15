@@ -27,6 +27,7 @@ locals {
 
     # lb 
     lb_name             = "kong-internal-lb"
+    hosts_url_map       = ["example.com", "hybrid.ducmeit.work"]
     region              = "asia-east1"
     port                = 80
     http_health_check   = false
@@ -57,6 +58,7 @@ module "kong-hybrid" {
     sub_networks        = [local.subnetwork_taiwan, local.subnetwork_singapore]
 
     lb_name                = local.lb_name
+    hosts_url_map          = local.hosts_url_map
     service_label          = local.lb_name
     gcp_network            = local.network
     health_check_port      = local.port

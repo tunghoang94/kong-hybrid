@@ -175,3 +175,9 @@ variable "custom_labels" {
   type        = map(string)
   default     = {}
 }
+
+variable "hosts_url_map" {
+  description = "List of source tags for traffic between the internal load balancer."
+  type        = list(string)
+  default     = []
+}
