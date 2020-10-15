@@ -12,6 +12,7 @@
             "image_name": "kong-dp-{{user `region`}}-{{timestamp}}",
             "subnetwork": "{{user `subnetwork`}}",
             "project_id": "{{user `project_id`}}",
+            "tags": ["bastion-access"],
             "machine_type": "f1-micro",
             "source_image": "debian-9-stretch-v20200805",
             "source_image_family": "kong-hybrid",
