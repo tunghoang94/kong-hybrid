@@ -18,5 +18,5 @@ packer build -var 'region=singapore' -var 'conf_dir=packer/conf/kong-dp-singapor
 
 # kong admin
 ```
-packer build -var 'env_dir=packer/conf/kong-admin/.env' -var 'playbook=packer/ansible/inventory/kong_admin.yml' packer/kong_admin.json
+packer build -var 'env_dir=packer/conf/kong-admin/.env' -var 'playbook=packer/ansible/inventory/kong_admin.yml' -var 'zone=asia-southeast1-a' -var 'subnetwork=connectivity-platform-dc2' packer/kong_admin.json
 ```
