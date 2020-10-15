@@ -2,7 +2,7 @@
     "variables": {
         "zone": "asia-east1-a",
         "gcp_account_file": "account.json",
-        "project_id": "sa101-286802",
+        "project_id": "driven-stage-269911",
         "conf_out_dir": "/usr/conf/kong"
     },
     "builders": [
