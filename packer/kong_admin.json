@@ -1,6 +1,5 @@
 {
     "variables": {
-        "zone": "asia-east1-a",
         "gcp_account_file": "account.json",
         "network": "connectivity-platform",
         "project_id": "driven-stage-269911",
