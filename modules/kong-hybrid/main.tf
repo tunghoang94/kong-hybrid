@@ -140,7 +140,7 @@ resource "google_compute_instance" "kong-admin" {
 
 resource "google_compute_instance_template" "kong-dp-instance-template-region1" {
     name         = "kong-dp-instance-template-region1"
-    machine_type = "custom-2-2048"
+    machine_type = var.machine_type
     region       = var.regions[0]
     tags         = ["kong-dp", "kong-firewall", "bastion-access"]
     // boot disk
@@ -163,7 +163,7 @@ resource "google_compute_instance_template" "kong-dp-instance-template-region1" 
 
 resource "google_compute_instance_template" "kong-dp-instance-template-region2" {
     name         = "kong-dp-instance-template-region2"
-    machine_type = "custom-2-2048"
+    machine_type = var.machine_type
     region       = var.regions[1]
     tags         = ["kong-dp", "kong-firewall", "bastion-access"]
     // boot disk

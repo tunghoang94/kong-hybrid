@@ -96,7 +96,7 @@ variable "health_check_port" {
 variable "machine_type" {
   description = "Machine type."
   type        = string
-  default     = "custom-2-2048"
+  default     = "n1-standard-1"
 }
 
 variable "root_volume_disk_size_gb" {
