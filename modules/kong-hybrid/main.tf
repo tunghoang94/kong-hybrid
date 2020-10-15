@@ -123,7 +123,7 @@ resource "google_compute_instance" "kong-admin" {
 
     network_interface {
         network = var.network
-        subnetwork = var.sub_networks[1]
+        subnetwork = var.sub_networks[0]
         access_config {
             // Ephemeral IP
         }
