@@ -102,8 +102,8 @@ resource "google_compute_instance" "kong-cp-region2" {
 }
 
 # KONG ADMIN
-resource "google_compute_global_address" "kong-admin-global-address" {
-  name = "kong-admin-global-address"
+resource "google_compute_address" "kong-admin-address" {
+  name = "kong-admin-address"
 }
 
 resource "google_compute_instance" "kong-admin" {
@@ -130,7 +130,7 @@ resource "google_compute_instance" "kong-admin" {
         subnetwork = var.sub_networks[0]
         access_config {
             // Ephemeral IP
-            nat_ip = "${google_compute_address.kong-admin-global-address.address}"
+            nat_ip = google_compute_address.kong-admin-address.address
         }
     }
 
