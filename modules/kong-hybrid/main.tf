@@ -236,7 +236,7 @@ resource "google_compute_firewall" "kong-firewall" {
     
     allow {
         protocol = "tcp"
-        ports    = ["22", "80", "443", "1337"]
+        ports    = ["22", "80", "443", "1337", "8005", "8001"]
     }
 }
 
